@@ -11,6 +11,8 @@ module SendGrid
     :footer,
     :spamcheck,
     :bypass_list_management
+    :asm_group_id,
+    :asm_groups_to_display
   ]
 
   VALID_GANALYTICS_OPTIONS = [
@@ -28,7 +30,8 @@ module SendGrid
                       :default_footer_text, :default_spamcheck_score, :default_sg_unique_args
       end
       attr_accessor :sg_category, :sg_options, :sg_disabled_options, :sg_recipients, :sg_substitutions,
-                    :subscriptiontrack_text, :footer_text, :spamcheck_score, :sg_unique_args, :sg_send_at
+                    :subscriptiontrack_text, :footer_text, :spamcheck_score, :sg_unique_args, :sg_send_at,
+                    :asm_group_id, :asm_groups_to_display
     end
 
     # NOTE: This commented-out approach may be a "safer" option for Rails 3, but it
@@ -162,6 +165,14 @@ module SendGrid
     options.each { |option| @ganalytics_options << option if VALID_GANALYTICS_OPTIONS.include?(option[0].to_sym) }
   end
   
+  def sendgrid_asm_group(asm_group_id)
+    @asm_group_id = asm_group_id
+  end
+  
+  def sendgrid_asm_groups_to_display(asm_groups_to_display = []
+    @asm_groups_to_display = asm_groups_to_display
+  end
+  
   # only override the appropriate methods for the current ActionMailer version
   if ActionMailer::Base.respond_to?(:mail)
 
@@ -237,6 +248,14 @@ module SendGrid
     # Set custom substitions
     if @sg_substitutions && !@sg_substitutions.empty?
       header_opts[:sub] = @sg_substitutions
+    end
+    
+    if @asm_group_id
+      header_opts[:asm_group_id] = @asm_group_id
+    end
+    
+    if @asm_groups_to_display && !@asm_groups_to_display.empty?
+      header_opts[:asm_groups_to_display] = @asm_groups_to_display
     end
 
     # Set enables/disables
