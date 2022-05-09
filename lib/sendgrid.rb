@@ -169,7 +169,7 @@ module SendGrid
     @asm_group_id = asm_group_id
   end
   
-  def sendgrid_asm_groups_to_display(asm_groups_to_display = []
+  def sendgrid_asm_groups_to_display(asm_groups_to_display = [])
     @asm_groups_to_display = asm_groups_to_display
   end
   
