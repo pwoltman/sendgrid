@@ -10,7 +10,7 @@ module SendGrid
     :subscriptiontrack,
     :footer,
     :spamcheck,
-    :bypass_list_management
+    :bypass_list_management,
     :asm_group_id,
     :asm_groups_to_display
   ]
